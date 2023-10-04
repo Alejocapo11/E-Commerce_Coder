@@ -15,9 +15,9 @@ const productManager = new ProductManager('productos.json'); // Ajusta la ruta d
 app.get('/products', async (req, res) => {
   try {
     const limit = req.query.limit; // Obtén el valor del query param "limit"
+    //Si existe limit mando lo que necesito, en caso de no mandarlo paso todo
+    if(!limit || isNaN(limit)) return res.json(await productManager.getProducts());
     const products = await productManager.getProducts(limit);
-    //Imprimo por consola esto a ver si esta bien
-    console.log(products);
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener productos.' });
