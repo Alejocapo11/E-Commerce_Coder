@@ -1,52 +1,60 @@
 //Partiendo del entregable de la clase 4 
 
 
-const { promises: fs } = require('fs');
+import { promises as fs } from 'fs';
+import path from 'path';
 
-class ProductManager {
-  constructor(filePath) {
-      this.path = filePath;
-      this.products = [];
-      this.nextId = 1;
+export default class ProductManager {
+    constructor(filePath) {
+    
+        this.path = filePath;
+        this.products = [];
+        this.nextId = 1;
 
-      // Verificar si el archivo existe, si no, crearlo
-      this.checkAndCreateFile();
-  }
+        // Verificar si el archivo existe, si no, crearlo
+        this.checkAndCreateFile();
+    }
 
-  async checkAndCreateFile() {
-      try {
-          await fs.access(this.path);
-      } catch (error) {
-          // El archivo no existe, crearlo con un arreglo vacío
-          await fs.writeFile(this.path, '[]', 'utf8');
-      }
-  }
+    async checkAndCreateFile() {
+    
+        try {
+            await fs.access(path.resolve(this.path));
+        } catch (error) {
+            // El archivo no existe, crearlo con un arreglo vacío
+            await fs.writeFile(this.path, '[]', 'utf8');
+        }
+    }
 
-    async addProduct(title, description, price, thumbnail, code, stock) {
-        if (!title || !description || !price || !thumbnail || !code || !stock) { 
-            throw new Error('Todos los campos son obligatorios.');
-        }//Es la verificación de que estén todos los campos
-        
-        //Error si se repite código
-        const codeExists = this.products.some(product => product.code === code);
+    async addProduct(productData) {
+        await this.loadFromFile(); //Siempre cargo los productos antes de agregar uno nuevo
+
+        const validKeys = ['title', 'description', 'price', 'code', 'stock', 'thumbnail', 'status'];
+
+        // Verificar que todas las claves en productData sean válidas
+        const invalidKeys = Object.keys(productData).filter(key => !validKeys.includes(key));
+
+        if (invalidKeys.length > 0) {
+            throw new Error(`Campos inválidos: ${invalidKeys.join(', ')}`);
+        }
+
+        // Verificar si el código del producto ya existe
+        const codeExists = this.products.some(product => product.code === productData.code);
         if (codeExists) {
             throw new Error("El código del producto ya existe.");
         }
 
-        //Genero el producto para agregarlo al array
-        let newProduct = {
+        // Generar el producto para agregarlo al array
+        const newProduct = {
             id: this.nextId++,
-            title: title,
-            description:  description,
-            price:  price,
-            thumbnail: thumbnail,
-            code: code,
-            stock: stock
-        }
+            ...productData // Usar spread operator para incluir todas las propiedades válidas
+        };
+        
         this.products.push(newProduct);
-        //Ahora que tengo armado el array, lo guardo en el archivo
+        
+        // Guardar el array en el archivo
         await this.saveToFile();
     }
+
 
     async getProducts(n) {
         //Esta función debe leer el archivo de productos y devolver todos los productos en formato de arreglo.
@@ -61,6 +69,7 @@ class ProductManager {
 
     async getProductById(id) {
         //Esta función busca el producto por ID en la lista de productos cargados.
+        await this.loadFromFile();
         const product = this.products.find(product => product.id === id);
         if (!product) {
             throw new Error("Producto no encontrado.");
@@ -75,6 +84,19 @@ class ProductManager {
         if (productIndex === -1) {
             throw new Error("Producto no encontrado.");
         }
+        
+        //Aca tambien tengo que validar que el dato que me pasen no tenga una key invalida
+        const validKeys = ['title', 'description', 'price', 'code', 'stock', 'thumbnail', 'status'];
+
+        // Verificar que todas las claves en productData sean válidas
+        const invalidKeys = Object.keys(updatedProduct).filter(key => !validKeys.includes(key));
+
+        
+        if (invalidKeys.length > 0) {
+            throw new Error(`Campos inválidos: ${invalidKeys.join(', ')}`);
+        }
+        //console.log("Esto no se deberia ejecutar");
+        
 
         this.products[productIndex] = { ...this.products[productIndex], ...updatedProduct };
 
@@ -125,7 +147,7 @@ class ProductManager {
     }
 }
 
-module.exports = ProductManager;
+//module.exports = ProductManager;
 
 
 //Voy a agregar algunos productos para tener el archivo con productos

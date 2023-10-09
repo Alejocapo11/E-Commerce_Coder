@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Producto",
+    "description": "Hola",
+    "price": 20,
+    "code": 155,
+    "stock": 300,
+    "status": true
+  },
+  {
+    "id": 2,
+    "title": "Cambio nombre",
+    "description": "Hola",
+    "price": 20,
+    "code": 185,
+    "stock": 300,
+    "status": false
+  },
+  {
+    "id": 3,
+    "title": "Productoab",
+    "description": "Hola",
+    "price": 20,
+    "code": 190,
+    "stock": 300,
+    "status": true
+  }
+]
