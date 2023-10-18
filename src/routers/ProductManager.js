@@ -39,10 +39,13 @@ export default class ProductManager {
 
         // Verificar si el código del producto ya existe
         const codeExists = this.products.some(product => product.code === productData.code);
-        if (codeExists) {
-            throw new Error("El código del producto ya existe.");
+        // if (codeExists) {
+        //     throw new Error("El código del producto ya existe.");
+        // }
+        //Si no me pasan status lo pongo por defecto en true
+        if (!productData.status) {
+            productData.status = true;
         }
-
         // Generar el producto para agregarlo al array
         const newProduct = {
             id: this.nextId++,

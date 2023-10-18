@@ -24,6 +24,15 @@
     "price": 20,
     "code": 190,
     "stock": 300,
+    "status": false
+  },
+  {
+    "id": 4,
+    "title": "123",
+    "description": "132",
+    "price": 132,
+    "code": "132",
+    "stock": 132,
     "status": true
   }
 ]
