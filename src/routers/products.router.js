@@ -4,6 +4,7 @@ import { Router } from 'express';
 import ProductManager from './ProductManager.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { emitFromApi } from '../server.js';
 
 //Para que los archivos se creen siempre en la misma carpeta no importa desde donde se llame
 
@@ -57,6 +58,9 @@ router.post('/products', async (req, res) => {
         }
         //Llamo a la funcion addProduct de ProductManager
         await productManager.addProduct(productData);
+        //Emito el evento a todos los clientes con el nuevo producto
+        const products = await productManager.getProducts();
+        emitFromApi('notification', products);
         // Respuesta exitosa
         res.status(201).json({ message: 'Producto agregado correctamente' });
     } catch (error) {

@@ -41,3 +41,5 @@ socketServer.on('connection', (clienteSocket) => {
 server.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}/`);
 });
+
+export const emitFromApi = (event, data) => socketServer.emit(event, data);
