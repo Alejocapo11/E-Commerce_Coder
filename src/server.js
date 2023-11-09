@@ -1,11 +1,15 @@
 import http from 'http';
 import { Server } from 'socket.io';
 import { Router } from 'express';
-import ProductManager from './routers/ProductManager.js';
+import ProductManager from './dao/ProductManager.js';
 import path from 'path';
-import { fileURLToPath } from 'url';
+import { __dirname } from './utils.js';
+import {init} from './db/mongodb.js';
 
-const ruta= path.resolve(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'routers/archivos', 'productos.json'));
+await init();
+
+//Importemos la ruta desde utils.js
+const ruta = path.resolve(__dirname, 'dao/archivos', 'productos.json');
 
 
 const productManager = new ProductManager(ruta);
@@ -17,10 +21,14 @@ const socketServer = new Server(server);
 const PORT = 8080;
 
 let products = await productManager.getProducts();
-  
+let messages = [];
+
+//Esto es la parte del socket
+
 socketServer.on('connection', (clienteSocket) => {
     console.log(`Nuevo cliente conectado 🎉 (${clienteSocket.id}).`);
     clienteSocket.emit('start', products);
+    //Tambien actualizo los mensajes
     
     clienteSocket.on('new-product', async (data) => {
         // Aca recibo los datos de un producto nuevo y tengo que agregarlo al product manager

@@ -8,10 +8,14 @@ import handlebars from 'express-handlebars';
 
 //Voy a implementar los routers 
 
-import productsRouter from './routers/products.router.js';
-import cartsRouter from './routers/carts.router.js';
-import indexRouter from './routers/index.router.js';
+
+import vproductsRouter from './routers/vproducts.router.js';
 import realTimeProducts from './routers/realtimeproducts.router.js';
+import vcartsRotuer from './routers/vcarts.router.js';
+
+//Aca los routers con db
+import dbproductsRouter from './routers/api/dbproducts.router.js';
+import dbcartsRouter from './routers/api/dbcarts.router.js';
 
 const app = express();
 // const __filename = fileURLToPath(import.meta.url);
@@ -25,8 +29,8 @@ app.set('view engine', 'handlebars');
 
 
 
-app.use('/', indexRouter,realTimeProducts);
-app.use('/api', productsRouter, cartsRouter);
+app.use('/', vproductsRouter,vcartsRotuer,realTimeProducts);
+app.use('/api', dbproductsRouter, dbcartsRouter);
 
 
 // app.get('/realtimeproducts', (req, res) => {

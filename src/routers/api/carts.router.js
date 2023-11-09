@@ -3,19 +3,28 @@
 //Ya tengo la clase hecha asi que es muy parecido al router de productos
 
 import { Router } from 'express';
-import ProductManager from './ProductManager.js';
-import CartManager from './CartManager.js';
+import { __dirname } from '../../utils.js';
+//Cambie los managers a la carpeta dao para que quede mas ordenado
+
+import ProductManager from '../../dao/ProductManager.js';
+import CartManager from '../../dao/CartManager.js';
+
+
+
 import path from 'path';
 import { fileURLToPath } from 'url';
+//Actualizo esto
+//const ruta = path.resolve(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'archivos', 'carritos.json'));
+const ruta = path.resolve(__dirname, './dao/archivos', 'carritos.json');
 
-const ruta = path.resolve(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'archivos', 'carritos.json'));
-
-const rutap = path.resolve(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'archivos', 'productos.json'));
+//const rutap = path.resolve(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'archivos', 'productos.json'));
+const rutap = path.resolve(__dirname, './dao/archivos', 'productos.json');
 
 const productManager = new ProductManager(rutap);
 const cartManager = new CartManager(ruta);
 
 const router = Router();
+
 
 //La ruta GET /:cid deberá listar los productos que pertenezcan al carrito con el parámetro cid proporcionados.
 
@@ -44,6 +53,7 @@ router.post('/carts', async (req, res) => {
     }
 });
 
+
 //La ruta POST /:cid/productos/:id_producto deberá agregar un producto al carrito con el id proporcionado.
 
 router.post('/carts/:cid/products/:id_producto', async (req, res) => {
@@ -61,6 +71,10 @@ router.post('/carts/:cid/products/:id_producto', async (req, res) => {
         res.status(404).json({ error: 'Carrito o producto no encontrado.' });
     }
 });
+
+
+
+
 
 export default router;
 

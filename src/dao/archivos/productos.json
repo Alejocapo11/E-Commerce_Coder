@@ -97,5 +97,14 @@
     "code": 190,
     "stock": 300,
     "status": true
+  },
+  {
+    "id": 12,
+    "title": "Producto prueba 15",
+    "description": "adads",
+    "price": 123,
+    "code": "5897",
+    "stock": 2,
+    "status": true
   }
 ]

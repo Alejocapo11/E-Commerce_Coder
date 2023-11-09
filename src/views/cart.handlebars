@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lista de Productos</title>
+</head>
+<body>
+  <h1>Lista de Productos</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Descripción</th>
+        <th>Codigo</th>
+        <th>Stock</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each payload}}
+        <tr>
+            <td>{{this._id}}</td> <!-- Ajustado aquí -->
+            <td>{{this.title}}</td> <!-- Ajustado aquí -->
+            <td>{{this.price}}</td> <!-- Ajustado aquí -->
+            <td>{{this.description}}</td> <!-- Ajustado aquí -->
+            <td>{{this.code}}</td> <!-- Ajustado aquí -->
+            <td>{{this.stock}}</td> <!-- Ajustado aquí -->
+            <td>{{this.status}}</td> <!-- Ajustado aquí -->
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</body>
+</html>

@@ -1,14 +1,16 @@
 //Aca hay que hacer la implementación del get, post, put y delete
 
 import { Router } from 'express';
-import ProductManager from './ProductManager.js';
+import ProductManager from '../../dao/ProductManager.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { emitFromApi } from '../server.js';
+import { emitFromApi } from '../../server.js';
+import { __dirname } from '../../utils.js';
 
-//Para que los archivos se creen siempre en la misma carpeta no importa desde donde se llame
 
-const ruta= path.resolve(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'archivos', 'productos.json'));
+//const ruta= path.resolve(path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'archivos', 'productos.json'));
+//Hagamos la nueva ruta en dao que esta una carpeta afuera de la actual
+const ruta = path.resolve(__dirname, './dao/archivos', 'productos.json');
 
 const productManager = new ProductManager(ruta);
 
