@@ -26,7 +26,7 @@ let messages = [];
 //Esto es la parte del socket
 
 socketServer.on('connection', (clienteSocket) => {
-    console.log(`Nuevo cliente conectado 🎉 (${clienteSocket.id}).`);
+    //console.log(`Nuevo cliente conectado 🎉 (${clienteSocket.id}).`);
     clienteSocket.emit('start', products);
     //Tambien actualizo los mensajes
     
@@ -42,7 +42,7 @@ socketServer.on('connection', (clienteSocket) => {
     });
 
     clienteSocket.on('disconnect', () => {
-      console.log(`Cliente desconectado (${clienteSocket.id}) 😨.`);
+      //console.log(`Cliente desconectado (${clienteSocket.id}) 😨.`);
     });
   });
   

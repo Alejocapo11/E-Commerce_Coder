@@ -4,6 +4,12 @@
   <title>Lista de Productos</title>
 </head>
 <body>
+  </header>
+  <h1>Bienvenido, {{user.first_name}}!</h1>
+  </header>
+  <p>Apellido: {{user.last_name}}</p>
+  <p>Correo: {{user.email}}</p>
+  <p>Rol: {{user.role}}</p>
   <h1>Lista de Productos</h1>
   <table>
     <thead>
@@ -38,6 +44,11 @@
 
 <a href="{{prevLink}}" role="button" {{#unless hasPrevPage}}disabled{{/unless}} >Anterior</a>
 <a href="{{nextLink}}" role="button" {{#unless hasNextPage}}disabled{{/unless}} >Siguiente</a>
-  
+
+<footer>
+    <a href="/api/sessions/logout" role="button">Logout</a>
+</footer>
+
+
 </body>
 </html>

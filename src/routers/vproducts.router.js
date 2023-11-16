@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, response } from 'express';
 import { randomNumber } from '../utils.js';
 import { __dirname } from '../utils.js';
 import path from 'path';
@@ -13,6 +13,10 @@ const router = Router();
 
 
 router.get('/products', async (req, res) => {
+    //Verifico que el usuario este logueado
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
     const { page = 1, limit = 5, stock, sort } = req.query; // sort: asc | desc
     const opts = { page, limit, sort: { price: sort || 'asc' } };
     const criteria = {};
@@ -20,8 +24,11 @@ router.get('/products', async (req, res) => {
         criteria.stock = stock;
     }
     const result = await productModel.paginate(criteria, opts);
-    //console.log(buildResponse({... result, stock, sort}));
-    res.render('products', buildResponse({... result, stock, sort}));
+    let respuesta = buildResponse({ ...result, stock, sort });
+    //Agrego el usuario
+    respuesta.user = req.session.user;
+
+    res.render('products', respuesta);
 
 });
 
