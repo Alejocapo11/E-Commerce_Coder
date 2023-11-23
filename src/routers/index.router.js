@@ -1,4 +1,5 @@
 import { Router } from "express";
+import {createHash, isValidPassword} from '../utils.js';
 
 const router = Router();
 
@@ -31,6 +32,11 @@ router.get("/login" , publicRouter, (req, res) => {
 //Ahora register
 router.get("/register" , publicRouter, (req, res) => {
     res.render("register", { title: "Register" });
+});
+
+//Ahora el router para recuperar el password
+router.get("/recovery-password" , publicRouter, (req, res) => {
+    res.render("recovery-password", { title: "Recover Password" });
 });
 
 export default router;

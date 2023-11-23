@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import passport from 'passport';
 import { fileURLToPath } from 'url';
 import { __dirname } from './utils.js';
 import handlebars from 'express-handlebars';
@@ -22,6 +23,8 @@ import dbcartsRouter from './routers/api/dbcarts.router.js';
 
 //sessions routers
 import sessionRouter from './routers/api/sessions.router.js';
+
+import {init as initPassportConfig} from './config/passport.config.js';
 
 
 const app = express();
@@ -50,7 +53,10 @@ app.engine('handlebars', handlebars.engine());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
+initPassportConfig();
 
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', vproductsRouter,vcartsRotuer,realTimeProducts,indexRouter);
 app.use('/api', dbproductsRouter, dbcartsRouter,sessionRouter);

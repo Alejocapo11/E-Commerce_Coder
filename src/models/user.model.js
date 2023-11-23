@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   age: Number,
   password: String,
   role: String,
+  provider: String, 
 }, { timestamps: true });
 
 export default mongoose.model('User', userSchema);
