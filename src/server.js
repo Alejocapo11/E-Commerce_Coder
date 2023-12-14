@@ -1,10 +1,14 @@
 import http from 'http';
+import config from './config.js'
+
 import { Server } from 'socket.io';
 import { Router } from 'express';
 import ProductManager from './dao/ProductManager.js';
 import path from 'path';
 import { __dirname } from './utils.js';
 import {init} from './db/mongodb.js';
+
+
 
 await init();
 
@@ -18,7 +22,7 @@ import app from './app.js';
 
 const server = http.createServer(app);
 const socketServer = new Server(server);
-const PORT = 8080;
+const PORT = config.port;
 
 let products = await productManager.getProducts();
 let messages = [];

@@ -8,6 +8,7 @@ import { __dirname } from '../../utils.js';
 
 import ProductManager from '../../dao/ProductManager.js';
 import CartManager from '../../dao/CartManager.js';
+import CartController from '../../controllers/cart.controller.js';
 
 
 
@@ -35,7 +36,7 @@ router.get('/carts/:cid', async (req, res) => {
         return res.status(400).json({ error: 'ID de carrito no válido.' });
     }
     try {
-        const cart = await cartManager.getCartById(cartId);
+        const cart = await CartController.getById(cartId);
         res.json(cart);
     } catch (error) {
         res.status(404).json({ error: 'Carrito no encontrado.' });
@@ -46,7 +47,7 @@ router.get('/carts/:cid', async (req, res) => {
 
 router.post('/carts', async (req, res) => {
     try {
-        await cartManager.addCart();
+        await CartController.addCart();
         res.json({ message: 'Carrito creado exitosamente.' });
     } catch (error) {
         res.status(500).json({ error: 'Error al crear carrito.' });

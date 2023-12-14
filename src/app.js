@@ -1,4 +1,5 @@
 import express from 'express';
+import config from './config.js';
 import path from 'path';
 import passport from 'passport';
 import { fileURLToPath } from 'url';
@@ -30,7 +31,7 @@ import {init as initPassportConfig} from './config/passport.config.js';
 const app = express();
 
 //Configuro las sesiones
-const SESSION_SECRET = 'secret';
+const SESSION_SECRET = config.sessionSecret;
 
 app.use(expressSession({
     secret: SESSION_SECRET,

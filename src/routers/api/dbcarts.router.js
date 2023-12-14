@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { randomNumber } from '../../utils.js';
 import { __dirname } from '../../utils.js';
 import dbCartManager from '../../dao/dbCartManager.js';
+import CartController from '../../controllers/cart.controller.js';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.get('/carts/:cid', async (req, res) => {
     try{
         //Obtener productos por id
         const { params: { cid } } = req;
-        const cart = await dbCartManager.getById(cid);
+        const cart = await CartController.getById(cid);
         res.status(200).json(cart); 
     }catch (error){
         res.status(404).json({ error: 'Carrito no encontrado.' });
@@ -23,7 +24,7 @@ router.get('/carts/:cid', async (req, res) => {
 
 router.post('/carts', async (req, res) => {
     try{
-        const cart = await dbCartManager.addCart();
+        const cart = await CartController.addCart();
         console.log(cart);
         //Devuelvo el id del carrito creado
         res.status(201).json(cart);
@@ -36,12 +37,12 @@ router.post('/carts', async (req, res) => {
 router.post('/carts/:cid/products/:id_producto', async (req, res) => {
     try{
         const { params: { cid, id_producto } } = req;
-        const cart = await dbCartManager.getById(cid);
+        const cart = await CartController.getById(cid);
         if(!cart) throw new Error('Carrito no encontrado');
-        const product = await dbCartManager.addProductToCart(cid, id_producto);
+        const product = await CartController.addProductToCart(cid, id_producto);
         //Si todo salio bien mando mensaje que se agrego el producto y como va el carrito hasta ahora
         //Actualizo carrito
-        const cart_act = await dbCartManager.getById(cid);
+        const cart_act = await CartController.getById(cid);
         res.status(201).json({message: 'Producto agregado', cart_act});
     }catch (error){
         //Que tire el error que recibe
@@ -57,7 +58,7 @@ router.put('/carts/:cid', async (req, res) => {
     const { body: { products } } = req;
     //Llamo a la funcion que hice
     try{
-        const updatedcart = await dbCartManager.updateCart(cid, products);
+        const updatedcart = await CartController.updateCart(cid, products);
         res.status(200).json(updatedcart);
     }catch (error){
         res.status(error.statusCode || 500).json({ message: error.message });
@@ -70,7 +71,7 @@ router.put('/carts/:cid/products/:id_producto', async (req, res) => {
     const { params: { cid, id_producto } } = req;
     const { body: { quantity } } = req;
     try{
-        const updatedcart = await dbCartManager.updatequantity(cid, id_producto, quantity);
+        const updatedcart = await CartController.updateProductQuantity(cid, id_producto, quantity);
         res.status(200).json(updatedcart);
     }catch (error){
         res.status(error.statusCode || 500).json({ message: error.message });

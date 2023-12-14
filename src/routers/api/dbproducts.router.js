@@ -5,6 +5,7 @@ import { randomNumber } from '../../utils.js';
 import { __dirname } from '../../utils.js';
 import dbProductManager from '../../dao/dbProductManager.js';
 import productModel from '../../models/product.model.js';
+import ProductController from '../../controllers/product.controller.js';
 
 const router = Router();
 
@@ -14,7 +15,7 @@ const router = Router();
 
 router.get('/products', async (req, res) => {
     try {
-        const products = await dbProductManager.get();
+        const products = await ProductController.get();
         res.json(products);
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener productos.' });
@@ -25,7 +26,7 @@ router.get('/products/:sid', async (req, res) => {
     try{
         //Obtener productos por id
         const { params: { sid } } = req;
-        const product = await dbProductManager.getById(sid);
+        const product = await ProductController.getById(sid);
         res.status(200).json(product); 
     }catch (error){
         res.status(404).json({ error: 'Producto no encontrado.' });
@@ -37,8 +38,8 @@ router.post('/products', async (req, res) => {
     //try {
         const { body } = req;
         const newProduct = {...body};
-        const student = await dbProductManager.create(newProduct);
-        res.status(201).json(student);
+        const product = await ProductController.create(newProduct);
+        res.status(201).json(product);
     //} catch (error) {
        // res.status(500).json({ error: 'Error al crear el producto.' });
     //}
@@ -51,10 +52,10 @@ router.put('/products/:sid', async (req, res) => {
         console.log(sid);
         //sid = parseInt(sid);
         //veamos si lo encuentra
-        const product = await dbProductManager.getById(sid);
+        const product = await ProductController.getById(sid);
         //si no lo encuentra tira un console log
         if(!product) throw new Error('Producto no encontrado');
-        await dbProductManager.updateById(sid, body);
+        await ProductController.updateById(sid, body);
         res.status(204).json({message: 'Producto actualizado'});
     }catch (error){
         res.status(error.statusCode || 500).json({ message: error.message });
@@ -65,7 +66,7 @@ router.put('/products/:sid', async (req, res) => {
 router.delete ('/products/:sid', async (req, res) => {
     try{
         const {params : {sid}} = req;
-        await dbProductManager.deleteById(sid);
+        await ProductController.deleteById(sid);
         res.status(204).json({message: 'ProducSto borrado'});
     }catch (error){
         res.status(error.statusCode || 500).json({ message: error.message });
