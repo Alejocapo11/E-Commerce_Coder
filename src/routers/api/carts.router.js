@@ -9,6 +9,7 @@ import { __dirname } from '../../utils.js';
 import ProductManager from '../../dao/ProductManager.js';
 import CartManager from '../../dao/CartManager.js';
 import CartController from '../../controllers/cart.controller.js';
+import TicketController from '../../controllers/ticketcontroller.js';
 
 
 
@@ -70,6 +71,21 @@ router.post('/carts/:cid/products/:id_producto', async (req, res) => {
         res.json({ message: 'Producto agregado exitosamente.' });
     } catch (error) {
         res.status(404).json({ error: 'Carrito o producto no encontrado.' });
+    }
+});
+
+//Creo el router de tickets que lo que va a hacer es crear un ticket a partir de la id de un cart
+
+router.post('/carts/:cid/purchase', async (req, res) => {
+    const cartId = parseInt(req.params.cid);
+    if (isNaN(cartId)) {
+        return res.status(400).json({ error: 'ID de carrito no válido.' });
+    }
+    try {
+        const ticket = await TicketController.createTicket(cartId);
+        res.json(ticket);
+    } catch (error) {
+        res.status(404).json({ error: 'Carrito no encontrado.' });
     }
 });
 

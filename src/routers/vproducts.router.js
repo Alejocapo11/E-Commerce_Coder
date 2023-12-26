@@ -4,6 +4,7 @@ import { __dirname } from '../utils.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import productModel from '../models/product.model.js';
+import { authenticateUser } from '../utils.js';
 
 
 const router = Router();
@@ -31,6 +32,15 @@ router.get('/products', async (req, res) => {
     res.render('products', respuesta);
 
 });
+
+//Creo una ruta privada donde estaria el formulario para crear un producto y que solo puedan entrar admins
+
+router.get('/products/create', authenticateUser('admin'), (req, res) => {
+    //Si pudo entrar que aparezca un mensaje diciendo que es la ruta para crear un producto
+    res.response('Esta es la ruta para crear un producto');
+}
+);
+
 
 const buildResponse = (data) =>{
 

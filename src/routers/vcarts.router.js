@@ -12,6 +12,8 @@ router.get('/carts/:cid', async (req, res) => {
     res.render('cart', buildResponse(result));
 });
 
+
+
 // Ahora la función de build response
 const buildResponse = (data) => {
     return {
