@@ -1,7 +1,7 @@
 //Aca tengo que hacer un metodo que me cree el ticket a partir de los datos proporcionados y tambien un metodo que me devuelva el ticket por id
 
 import ticketModel from "../models/ticket.model.js";
-import { Exception } from "../utils.js";
+import { Exception } from "../utils/utils.js";
 
 export default class dbTicketManager {
     //Aca tengo que hacer un metodo que me cree el ticket a partir de los datos proporcionados

@@ -1,5 +1,8 @@
 import { Router } from "express";
 import {createHash, isValidPassword} from '../utils.js';
+import { generateProduct } from "../utils/utils.js"; 
+import { CustomError } from "../utils/CustomError.js";
+import { generatorProductError } from "../utils/CauseMessageError.js";
 
 const router = Router();
 
@@ -67,5 +70,28 @@ router.get("/register" , publicRouter, (req, res) => {
 router.get("/recovery-password" , publicRouter, (req, res) => {
     res.render("recovery-password", { title: "Recover Password" });
 });
+
+//Aca hago el generador de usuarios para pruebas
+
+//Le agrego el chekeo de los errrores
+router.get("/mockingproducts", (req, res) => {
+
+    const products = [];
+    for (let index = 0; index < 10; index++) {
+        //Checkeo que el producto este bien y si no creo un custom error
+        const product = generateProduct();
+        if(!product.title || !product.price || !product.code){
+            CustomError.createError({
+                name: 'ValidationError',
+                message: generatorProductError(product),
+                code: 400,
+            });
+        }
+        products.push(product);
+    }
+    res.status(200).json(products);
+
+}
+);
 
 export default router;

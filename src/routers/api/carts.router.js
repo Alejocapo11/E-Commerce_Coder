@@ -3,7 +3,7 @@
 //Ya tengo la clase hecha asi que es muy parecido al router de productos
 
 import { Router } from 'express';
-import { __dirname } from '../../utils.js';
+import { __dirname } from '../../utils/utils.js';
 //Cambie los managers a la carpeta dao para que quede mas ordenado
 
 import ProductManager from '../../dao/ProductManager.js';

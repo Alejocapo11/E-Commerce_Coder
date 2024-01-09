@@ -1,10 +1,10 @@
 import { Router, response } from 'express';
-import { randomNumber } from '../utils.js';
-import { __dirname } from '../utils.js';
+import { randomNumber } from '../utils/utils.js';
+import { __dirname } from '../utils/utils.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import productModel from '../models/product.model.js';
-import { authenticateUser } from '../utils.js';
+import { authenticateUser } from '../utils/utils.js';
 
 
 const router = Router();

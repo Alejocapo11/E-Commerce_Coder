@@ -1,5 +1,5 @@
 import productModel from "../models/product.model.js";
-import { Exception } from "../utils.js";
+import { Exception } from "../utils/utils.js";
 
 export default class dbProductManager {
 

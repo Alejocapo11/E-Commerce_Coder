@@ -1,6 +1,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bcrypt from 'bcrypt';
+import { faker } from '@faker-js/faker';
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -45,6 +46,14 @@ export const authenticateUser = (requiredRole) => async (req, res, next) => {
     return res.redirect('/login');
   }
 } 
+
+export const generateProduct = () => {
+    return {
+        title: faker.commerce.productName(),
+        price: faker.commerce.price(),
+        code : faker.datatype.uuid(),
+    }
+}
 
 
 

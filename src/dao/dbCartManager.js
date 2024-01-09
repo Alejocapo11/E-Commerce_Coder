@@ -1,5 +1,5 @@
 import cartModel from "../models/cart.model.js";
-import { Exception } from "../utils.js";
+import { Exception } from "../utils/utils.js";
 
 export default class dbCartManager {
     
